@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galaxy Shooter teste</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        html, body{
+            width: 100%;
+            height: 100%;
+        }
+        .tiro{
+            background-color: blue;
+            width: 10px;
+            height: 10px;
+            position: absolute;
+        }
+    </style>
+    <script>
+        let pause = 1
+    </script>
+    
+</head>
+<body>
+    <button onclick="pause = 0">pausar</button>
+    <button onclick="pause = 1">jogar</button>
+
+
+    <script>
+        document.body.addEventListener('click', e => {
+            let tiroX = e.pageX;
+            let tiroY = e.pageY;
+            document.body.innerHTML += `<div class="tiro" style="top: ${tiroY}px; left: ${tiroX}px;"></div>`
+            let tiros = document.querySelectorAll('div.tiro');
+            tiros.forEach(tiro => {
+                let tiroox = parseInt(tiro.style.left)
+                let tirooy = parseInt(tiro.style.top)
+                setInterval( function(){
+                    if(pause == 1){
+                    tirooy -= 10
+                    tiro.style.top = tirooy+'px';
+                    }
+                }, 50)
+                
+            });
+        })
+    </script>
+</body>
+</html>
