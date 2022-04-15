@@ -1,0 +1,91 @@
+<!--Criador de asteroids-->
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asteroids</title>
+    <style>
+        .asteroid{
+            width: 40px;
+            height: 40px;
+            background-color: black;
+            border-radius: 100%;
+            position: absolute;
+        }
+        button{
+            position: absolute;
+            bottom: 0px;
+        }
+    </style>
+    <script>
+        let pare = false;
+    </script>
+</head>
+<body>
+    <button onclick="
+    if(pare == false){
+        pare = true;
+    }else{
+        pare = false;
+    }
+    ">pare</button>
+
+
+    <script>
+        let asteroids = document.body.querySelectorAll('div.asteroid');
+        function CriadorAsteroids(quantidade, X){
+            let i = 0
+            for(i = 0; i <= quantidade; i++){
+                document.body.innerHTML += `<div class="asteroid" style="left: ${X}px; top: 10px;"></div>`;
+
+            }
+            asteroids = document.body.querySelectorAll('div.asteroid');
+        }
+
+
+        if(pare == false){
+        
+        let coordenadaY
+        setInterval(e =>{
+            if(pare == false){
+            let numRandom = Math.floor(Math.random() * (parseInt(screen.width) - 40));
+            CriadorAsteroids(1, numRandom);
+            }
+            asteroids = document.body.querySelectorAll('div.asteroid');
+
+
+            asteroids.forEach(aster => {
+            setInterval(function() {
+                asteroids = document.body.querySelectorAll('div.asteroid');
+                if(pare == false){
+                    coordenadaY = parseInt(aster.style.top);
+                    if(coordenadaY >= parseInt(screen.availHeight))
+                    {
+                        console.log(asteroids.length)
+                        if(aster.parentNode)
+                        {
+                            aster.parentNode.removeChild(aster);
+                        }
+                    }
+                    else
+                    {
+                        coordenadaY = parseInt(aster.style.top);
+                        coordenadaY += 10
+                        aster.style.top = coordenadaY+'px';
+                    }
+                    
+                }
+
+            }, 80);
+        });
+        }, 400);
+
+        }
+
+        
+
+        
+    </script>
+</body>
+</html>
