@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Asteroids</title>
     <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
         .asteroid{
             width: 40px;
             height: 40px;
@@ -17,9 +21,16 @@
             position: absolute;
             bottom: 0px;
         }
+        .tiro{
+            background-color: blue;
+            width: 10px;
+            height: 10px;
+            position: absolute;
+        }
     </style>
     <script>
         let pare = false;
+        let tiros = [];
     </script>
 </head>
 <body>
@@ -34,6 +45,9 @@
 
     <script>
         let asteroids = document.body.querySelectorAll('div.asteroid');
+        let telaY = parseInt(window.screen.availHeight) - 130;
+        let telaX = parseInt(window.screen.width) - 60;
+
         function CriadorAsteroids(quantidade, X){
             let i = 0
             for(i = 0; i <= quantidade; i++){
@@ -49,18 +63,19 @@
         let coordenadaY
         setInterval(e =>{
             if(pare == false){
-            let numRandom = Math.floor(Math.random() * (parseInt(screen.width) - 40));
+            let numRandom = Math.floor(Math.random() * telaX);
+            console.log(numRandom)
             CriadorAsteroids(1, numRandom);
             }
             asteroids = document.body.querySelectorAll('div.asteroid');
 
 
-            asteroids.forEach(aster => {
+            /*asteroids.forEach(aster => {
             setInterval(function() {
                 asteroids = document.body.querySelectorAll('div.asteroid');
                 if(pare == false){
                     coordenadaY = parseInt(aster.style.top);
-                    if(coordenadaY >= parseInt(screen.availHeight))
+                    if(coordenadaY >= telaY)
                     {
                         console.log(asteroids.length)
                         if(aster.parentNode)
@@ -70,18 +85,73 @@
                     }
                     else
                     {
-                        coordenadaY = parseInt(aster.style.top);
-                        coordenadaY += 10
-                        aster.style.top = coordenadaY+'px';
+                        if(pare == false){
+                            coordenadaY = parseInt(aster.style.top);
+                            coordenadaY += 10
+                            aster.style.top = coordenadaY+'px';
+                        }
                     }
                     
                 }
 
             }, 80);
-        });
-        }, 400);
-
+        });*/
+        }, 800);
         }
+
+        setInterval(function(){
+            asteroids.forEach(aster => {
+                asteroids = document.body.querySelectorAll('div.asteroid');
+                if(pare == false){
+                    coordenadaY = parseInt(aster.style.top);
+                    if(coordenadaY >= telaY)
+                    {
+                        console.log(asteroids.length)
+                        if(aster.parentNode)
+                        {
+                            aster.parentNode.removeChild(aster);
+                        }
+                    }
+                    else
+                    {
+                        if(pare == false){
+                            coordenadaY = parseInt(aster.style.top);
+                            coordenadaY += 10
+                            aster.style.top = coordenadaY+'px';
+                        }
+                    }
+                    
+                }
+            });
+        }, 50);
+
+
+
+        
+       
+
+        document.body.addEventListener('click', e=>{
+            let tiroX = e.pageX;
+            let tiroY = e.pageY;
+            document.body.innerHTML += `<div class="tiro" style="top: ${tiroY}px; left: ${tiroX}px;"></div>`
+            tiros = document.querySelectorAll('div.tiro');
+            tiros.forEach(tiro => {
+                let tiroox = parseInt(tiro.style.left)
+                let tirooy = parseInt(tiro.style.top)
+                setInterval( function(){
+                    if(pare == false){
+                        if(tirooy >= -10){
+                            tirooy -= 10
+                            tiro.style.top = tirooy+'px';
+                        }else{
+                            if(tiro.parentNode){
+                                tiro.parentNode.removeChild(aster);
+                            }
+                        }
+                    }
+                }, 50)    
+            });
+        });
 
         
 
