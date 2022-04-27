@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>teste asteroids</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .asteroid{
+            width: 40px;
+            height: 40px;
+            background-color: black;
+            border-radius: 100%;
+            position: absolute;
+        }
+        .asteroidG{
+            width: 50px;
+            height: 50px;
+        }
+        .asteroidP{
+            width: 30px;
+            height: 30px;
+        }
+        button{
+            position: absolute;
+            bottom: 0px;
+        }
+        .tiro{
+            background-color: blue;
+            width: 10px;
+            height: 10px;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+
+
+    <script>
+        class Asteroids {
+            _corpo = '';
+            _allAsteroids = [];
+            jogoPausado = false;
+
+            gerarCorpo(){
+                let numRandom = Math.floor(Math.random() * parseInt(window.screen.availWidth));
+                console.log(numRandom)
+
+                let tamanho = ['', '.asteroidG', '.asteroidP'];
+                let tamanhoRandom = tamanho[Math.floor(Math.random() * 2)];
+
+                this._corpo = `<div class="asteroid ${tamanhoRandom}" style="left: ${numRandom}px; top: 10px;"></div>`;
+
+                document.body.innerHTML += this._corpo;
+                this._allAsteroids = document.querySelectorAll('div.asteroid');
+            }
+
+            movimentarCorpo(){
+                if(this.jogoPausado == false){
+                    this._allAsteroids.forEach(aster => {
+                        aster.Interval = setInterval(x => {
+                            if(this.jogoPausado)return;
+                            let asterY = parseInt(aster.style.top);
+                            asterY += 2;
+                            aster.style.top = asterY+'px';
+                            if(asterY > parseInt(window.screen.availHeight)){
+                                clearInterval(aster.Interval);
+                                if (aster.parentNode) {//remove o asteroid
+                                    aster.parentNode.removeChild(aster);
+                                    //perder vida/pontos
+                                }
+                            }
+                        }, 10)
+                    });
+                }
+            }
+
+        }
+
+        let SupremeAster = new Asteroids();//sla
+
+        setInterval(x=>{
+            SupremeAster.gerarCorpo();
+            SupremeAster.movimentarCorpo();
+        }, 1000)
+
+
+    </script>
+    
+</body>
+</html>
