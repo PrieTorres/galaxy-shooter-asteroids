@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>teste asteroids</title>
     <style>
+        body, html{
+            width: 100%;
+            height: 100%;
+        }
         *{
             margin: 0;
             padding: 0;
@@ -47,7 +51,7 @@
             jogoPausado = false;
 
             gerarCorpo(){
-                let numRandom = Math.floor(Math.random() * parseInt(window.screen.availWidth));
+                let numRandom = Math.floor(Math.random() * parseInt(window.screen.availWidth)) - 50;
                 console.log(numRandom)
 
                 let tamanho = ['', '.asteroidG', '.asteroidP'];
@@ -67,7 +71,7 @@
                             let asterY = parseInt(aster.style.top);
                             asterY += 2;
                             aster.style.top = asterY+'px';
-                            if(asterY > parseInt(window.screen.availHeight)){
+                            if(asterY > (parseInt(window.screen.availHeight)-110)){
                                 clearInterval(aster.Interval);
                                 if (aster.parentNode) {//remove o asteroid
                                     aster.parentNode.removeChild(aster);
@@ -81,12 +85,58 @@
 
         }
 
+        class Tiro {
+            _corpo = '';
+            _allTiros = [];
+            jogoPausado = false;
+
+            criarTiro(x, y){
+                this._corpo = `<div class="tiro" style="left: ${x}px; top: ${y}px;"></div>`;
+                document.body.innerHTML += this._corpo;
+                this._allTiros = document.querySelectorAll('div.tiro');
+            }
+
+            movimentarTiro(){
+                if(this.jogoPausado == false){
+                    this._allTiros.forEach(tiro => {
+                        tiro.Interval = setInterval(x => {
+                            if(this.jogoPausado)return;
+                            let asterY = parseInt(tiro.style.top);
+                            asterY -= 2;
+                            tiro.style.top = asterY+'px';
+                            if(asterY < 0){
+                                clearInterval(tiro.Interval);
+                                if (tiro.parentNode) {//remove o asteroid
+                                    tiro.parentNode.removeChild(tiro);
+                                    //perder vida/pontos
+                                }
+                            }
+                        }, 10)
+                    });
+                }
+            }
+        }
+
         let SupremeAster = new Asteroids();//sla
+        let SupremeTiro = new Tiro(); //sla tbm
+
+        
+
+        document.body.addEventListener('click', e => {
+            let tiroX = e.pageX
+            let tiroY = e.pageY
+            
+            console.log(tiroX+", "+tiroY);
+            SupremeTiro.criarTiro(tiroX, tiroY);
+            SupremeTiro.movimentarTiro();
+            SupremeAster.movimentarCorpo();
+        
+        });
 
         setInterval(x=>{
             SupremeAster.gerarCorpo();
             SupremeAster.movimentarCorpo();
-        }, 1000)
+        }, 2000)
 
 
     </script>
