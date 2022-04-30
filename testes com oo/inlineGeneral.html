@@ -9,6 +9,7 @@
         body, html{
             width: 100%;
             height: 100%;
+            overflow: hidden;
         }
         *{
             margin: 0;
@@ -51,7 +52,6 @@
             _corpo = '';
             _allAsteroids = [];
             jogoPausado = false;
-            _asteroid;
             _id = 0;
 
             gerarCorpo(){
@@ -64,17 +64,15 @@
 
                 document.body.innerHTML += this._corpo;
 
-                this._asteroid = document.body.querySelector(`div#asteroid${this._id}`);
                 this._id += 1;
 
-                this._allAsteroids = document.querySelectorAll('div.asteroid');
-                
+                this._allAsteroids = document.querySelectorAll('div.asteroid');                
             }
 
             movimentarCorpo(aster){
                 if(this.jogoPausado == false){
                     let asterY = parseInt(aster.style.top);
-                    asterY += 2;
+                    asterY += 4;
                     aster.style.top = asterY+'px';
                     if(asterY > (parseInt(window.screen.availHeight)-110)){
                         if (aster.parentNode) {//remove o asteroid
@@ -102,9 +100,9 @@
 
             movimentarTiro(tiro){
                 if(this.jogoPausado == false){
-                    if(this.jogoPausado)return;
+                    if(this.jogoPausado){return};
                     let asterY = parseInt(tiro.style.top);
-                    asterY -= 2;
+                    asterY -= 4;
                     tiro.style.top = asterY+'px';
                     if(asterY < 0){
                         if (tiro.parentNode) {//remove o asteroid
@@ -137,8 +135,11 @@
             for(x = 0; x <= SupremeAster._id; x++){
                 SupremeAster.movimentarCorpo(SupremeAster._allAsteroids[x]);
             }
+        }, 40)
+
+        setInterval(e=>{
             for(x = 0; x <= SupremeTiro._id; x++){
-                SupremeTiro.movimentarCorpo(SupremeTiro._allAsteroids[x]);
+                SupremeTiro.movimentarTiro(SupremeTiro._allTiros[x]);
             }
         }, 40)
 
