@@ -15,19 +15,21 @@
             padding: 0;
         }
         .asteroid{
-            width: 40px;
-            height: 40px;
             background-color: black;
             border-radius: 100%;
             position: absolute;
         }
+        .asteroidM{
+            width: 40px;
+            height: 40px;
+        }
         .asteroidG{
-            width: 50px;
-            height: 50px;
+            width: 60px !important;
+            height: 60px !important;
         }
         .asteroidP{
-            width: 30px;
-            height: 30px;
+            width: 30px !important;
+            height: 30px !important;
         }
         button{
             position: absolute;
@@ -49,37 +51,45 @@
             _corpo = '';
             _allAsteroids = [];
             jogoPausado = false;
+            _asteroid;
+            _id = 0;
 
             gerarCorpo(){
                 let numRandom = Math.floor(Math.random() * parseInt(window.screen.availWidth)) - 50;
-                console.log(numRandom)
 
-                let tamanho = ['', '.asteroidG', '.asteroidP'];
-                let tamanhoRandom = tamanho[Math.floor(Math.random() * 2)];
+                let tamanho = ['asteroidM', 'asteroidG', 'asteroidP'];
+                let tamanhoRandom = tamanho[Math.floor(Math.random() * 3)];
 
-                this._corpo = `<div class="asteroid ${tamanhoRandom}" style="left: ${numRandom}px; top: 10px;"></div>`;
+                this._corpo = `<div id='asteroid${this._id}' class="asteroid ${tamanhoRandom}" style="left: ${numRandom}px; top: 10px;"></div>`;
 
                 document.body.innerHTML += this._corpo;
+
+                this._asteroid = document.body.querySelector(`div#asteroid${this._id}`);
+                this._id += 1;
+
                 this._allAsteroids = document.querySelectorAll('div.asteroid');
+
+                console.log(this._asteroid)
+
+                //-----------------------------------------
+                
+               this.movimentarCorpo(this._asteroid);
+                
             }
 
-            movimentarCorpo(){
+            movimentarCorpo(aster){
                 if(this.jogoPausado == false){
-                    this._allAsteroids.forEach(aster => {
-                        aster.Interval = setInterval(x => {
-                            if(this.jogoPausado)return;
-                            let asterY = parseInt(aster.style.top);
-                            asterY += 2;
-                            aster.style.top = asterY+'px';
-                            if(asterY > (parseInt(window.screen.availHeight)-110)){
-                                clearInterval(aster.Interval);
-                                if (aster.parentNode) {//remove o asteroid
-                                    aster.parentNode.removeChild(aster);
-                                    //perder vida/pontos
-                                }
+                    setInterval(e=>{
+                        let asterY = parseInt(aster.style.top);
+                        asterY += 2;
+                        aster.style.top = asterY+'px';
+                        if(asterY > (parseInt(window.screen.availHeight)-110)){
+                            if (aster.parentNode) {//remove o asteroid
+                                aster.parentNode.removeChild(aster);
+                                //perder vida/pontos
                             }
-                        }, 10)
-                    });
+                        }
+                    }, 40)
                 }
             }
 
@@ -96,23 +106,18 @@
                 this._allTiros = document.querySelectorAll('div.tiro');
             }
 
-            movimentarTiro(){
+            movimentarTiro(tiro){
                 if(this.jogoPausado == false){
-                    this._allTiros.forEach(tiro => {
-                        tiro.Interval = setInterval(x => {
-                            if(this.jogoPausado)return;
-                            let asterY = parseInt(tiro.style.top);
-                            asterY -= 2;
-                            tiro.style.top = asterY+'px';
-                            if(asterY < 0){
-                                clearInterval(tiro.Interval);
-                                if (tiro.parentNode) {//remove o asteroid
-                                    tiro.parentNode.removeChild(tiro);
-                                    //perder vida/pontos
-                                }
-                            }
-                        }, 10)
-                    });
+                    if(this.jogoPausado)return;
+                    let asterY = parseInt(tiro.style.top);
+                    asterY -= 2;
+                    tiro.style.top = asterY+'px';
+                    if(asterY < 0){
+                        if (tiro.parentNode) {//remove o asteroid
+                            tiro.parentNode.removeChild(tiro);
+                            //perder vida/pontos
+                        }
+                    }
                 }
             }
         }
@@ -125,19 +130,25 @@
         document.body.addEventListener('click', e => {
             let tiroX = e.pageX
             let tiroY = e.pageY
-            
             console.log(tiroX+", "+tiroY);
             SupremeTiro.criarTiro(tiroX, tiroY);
-            SupremeTiro.movimentarTiro();
-            SupremeAster.movimentarCorpo();
-        
         });
 
         setInterval(x=>{
             SupremeAster.gerarCorpo();
-            SupremeAster.movimentarCorpo();
+            SupremeAster._allAsteroids = document.querySelectorAll('div.asteroid');
         }, 2000)
 
+        
+        /*SupremeAster._allAsteroids.forEach(aster => {//simplesmente não rodou, não deu erro
+            console.log('foreach')
+            setInterval(x=>{
+                console.log('dentro do foreach')
+                SupremeAster.movimentarCorpo(aster);
+            }, 10)
+        });*/
+
+        
 
     </script>
     
