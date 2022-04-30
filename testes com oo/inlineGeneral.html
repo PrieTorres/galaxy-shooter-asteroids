@@ -68,28 +68,20 @@
                 this._id += 1;
 
                 this._allAsteroids = document.querySelectorAll('div.asteroid');
-
-                console.log(this._asteroid)
-
-                //-----------------------------------------
-                
-               this.movimentarCorpo(this._asteroid);
                 
             }
 
             movimentarCorpo(aster){
                 if(this.jogoPausado == false){
-                    setInterval(e=>{
-                        let asterY = parseInt(aster.style.top);
-                        asterY += 2;
-                        aster.style.top = asterY+'px';
-                        if(asterY > (parseInt(window.screen.availHeight)-110)){
-                            if (aster.parentNode) {//remove o asteroid
-                                aster.parentNode.removeChild(aster);
-                                //perder vida/pontos
-                            }
+                    let asterY = parseInt(aster.style.top);
+                    asterY += 2;
+                    aster.style.top = asterY+'px';
+                    if(asterY > (parseInt(window.screen.availHeight)-110)){
+                        if (aster.parentNode) {//remove o asteroid
+                            aster.parentNode.removeChild(aster);
+                            //perder vida/pontos
                         }
-                    }, 40)
+                    }
                 }
             }
 
@@ -99,11 +91,13 @@
             _corpo = '';
             _allTiros = [];
             jogoPausado = false;
+            _id = 0;
 
             criarTiro(x, y){
-                this._corpo = `<div class="tiro" style="left: ${x}px; top: ${y}px;"></div>`;
+                this._corpo = `<div id='tiro${this._id}' class="tiro" style="left: ${x}px; top: ${y}px;"></div>`;
                 document.body.innerHTML += this._corpo;
                 this._allTiros = document.querySelectorAll('div.tiro');
+                this._id += 1
             }
 
             movimentarTiro(tiro){
@@ -138,6 +132,15 @@
             SupremeAster.gerarCorpo();
             SupremeAster._allAsteroids = document.querySelectorAll('div.asteroid');
         }, 2000)
+
+        setInterval(e=>{
+            for(x = 0; x <= SupremeAster._id; x++){
+                SupremeAster.movimentarCorpo(SupremeAster._allAsteroids[x]);
+            }
+            for(x = 0; x <= SupremeTiro._id; x++){
+                SupremeTiro.movimentarCorpo(SupremeTiro._allAsteroids[x]);
+            }
+        }, 40)
 
         
         /*SupremeAster._allAsteroids.forEach(aster => {//simplesmente não rodou, não deu erro
