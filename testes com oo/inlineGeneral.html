@@ -45,6 +45,13 @@
     </style>
 </head>
 <body>
+    <button onclick="
+    if(SupremeAster.jogoPausado == false){
+        SupremeAster.jogoPausado = true;
+    }else{
+        SupremeAster.jogoPausado = false;
+    }
+    ">pare</button>
 
 
     <script>
@@ -122,35 +129,37 @@
         document.body.addEventListener('click', e => {
             let tiroX = e.pageX
             let tiroY = e.pageY
-            console.log(tiroX+", "+tiroY);
+            //console.log(tiroX+", "+tiroY);
             SupremeTiro.criarTiro(tiroX, tiroY);
         });
 
         setInterval(x=>{
-            SupremeAster.gerarCorpo();
-            SupremeAster._allAsteroids = document.querySelectorAll('div.asteroid');
-        }, 2000)
+            if(SupremeAster.jogoPausado == false){
+                SupremeAster.gerarCorpo();
+            }
+        }, 2000);
+
+        /*setInterval(e=>{
+            if(SupremeAster.jogoPausado == false){
+                SupremeTiro.criarTiro(700,700);   
+            }
+        }, 3000)*/
+        
 
         setInterval(e=>{
             for(x = 0; x <= SupremeAster._id; x++){
                 SupremeAster.movimentarCorpo(SupremeAster._allAsteroids[x]);
             }
-        }, 40)
+        }, 40);
 
         setInterval(e=>{
             for(x = 0; x <= SupremeTiro._id; x++){
                 SupremeTiro.movimentarTiro(SupremeTiro._allTiros[x]);
             }
-        }, 40)
+        }, 40);
 
         
-        /*SupremeAster._allAsteroids.forEach(aster => {//simplesmente não rodou, não deu erro
-            console.log('foreach')
-            setInterval(x=>{
-                console.log('dentro do foreach')
-                SupremeAster.movimentarCorpo(aster);
-            }, 10)
-        });*/
+
 
         
 

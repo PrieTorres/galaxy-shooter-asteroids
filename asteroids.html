@@ -59,7 +59,6 @@
 
 
         if(pare == false){
-        
         let coordenadaY
         setInterval(e =>{
             if(pare == false){
@@ -70,36 +69,36 @@
             asteroids = document.body.querySelectorAll('div.asteroid');
 
 
-            /*asteroids.forEach(aster => {
-            setInterval(function() {
-                asteroids = document.body.querySelectorAll('div.asteroid');
-                if(pare == false){
-                    coordenadaY = parseInt(aster.style.top);
-                    if(coordenadaY >= telaY)
-                    {
-                        console.log(asteroids.length)
-                        if(aster.parentNode)
+            asteroids.forEach(aster => {
+                setInterval(function() {
+                    asteroids = document.body.querySelectorAll('div.asteroid');
+                    if(pare == false){
+                        coordenadaY = parseInt(aster.style.top);
+                        if(coordenadaY >= telaY)
                         {
-                            aster.parentNode.removeChild(aster);
+                            console.log(asteroids.length)
+                            if(aster.parentNode)
+                            {
+                                aster.parentNode.removeChild(aster);
+                            }
                         }
-                    }
-                    else
-                    {
-                        if(pare == false){
-                            coordenadaY = parseInt(aster.style.top);
-                            coordenadaY += 10
-                            aster.style.top = coordenadaY+'px';
+                        else
+                        {
+                            if(pare == false){
+                                coordenadaY = parseInt(aster.style.top);
+                                coordenadaY += 2
+                                aster.style.top = coordenadaY+'px';
+                            }
                         }
+                        
                     }
-                    
-                }
 
-            }, 80);
-        });*/
+                }, 20);
+            });
         }, 800);
-        }
+    }
 
-        setInterval(function(){
+        /*setInterval(function(){
             asteroids.forEach(aster => {
                 asteroids = document.body.querySelectorAll('div.asteroid');
                 if(pare == false){
@@ -123,7 +122,7 @@
                     
                 }
             });
-        }, 50);
+        }, 50);*/
 
 
 
@@ -152,6 +151,50 @@
                 }, 50)    
             });
         });
+
+        /*setInterval(e =>{
+            tiros = document.querySelectorAll('div.tiro');
+            asteroids = document.body.querySelectorAll('div.asteroid');
+            asteroids.forEach((aster, index) => {
+                if(pare == false){
+                    coordenadaY = parseInt(aster.style.top);
+                    let tiro = tiros[index];
+
+                    let tiroox = parseInt(tiro.style.left)
+                    let tirooy = parseInt(tiro.style.top)
+
+                    if(coordenadaY >= telaY)
+                    {
+                        console.log(asteroids.length)
+                        if(aster.parentNode)
+                        {
+                            aster.parentNode.removeChild(aster);
+                        }
+                    }
+                    else
+                    {
+                        if(pare == false){
+                            coordenadaY = parseInt(aster.style.top);
+                            coordenadaY += 10
+                            aster.style.top = coordenadaY+'px';
+                        }
+                    }
+
+                    //-------------------------------
+                    if(pare == false){
+                        if(tirooy >= -10){
+                            tirooy -= 10
+                            tiro.style.top = tirooy+'px';
+                        }else{
+                            if(tiro.parentNode){
+                                tiro.parentNode.removeChild(aster);
+                            }
+                        }
+                    }
+                }
+            });
+
+        }, 20)*/
 
         
 
